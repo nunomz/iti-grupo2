@@ -8,7 +8,7 @@ app = Flask(__name__)
  
 app.secret_key = "caircocoders-ednalan"
  
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = 'music'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 * 1024
  
@@ -33,7 +33,9 @@ def main():
         if file and allowed_file(file.filename):
             #alterar aqui
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            foldername = filename.rstrip(filename[-4])
+            file.save(os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'], foldername, filename))
+            #adicionar musicas random ao foldername
             return Homepage
     return '''
     <!doctype html>
