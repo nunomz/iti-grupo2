@@ -64,8 +64,15 @@ def upload_file():
             flash('No selected file')
             return Homepage
         if file and allowed_file(file.filename):
+            #filename = secure_filename(file.filename)
+            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            #alterar aqui
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            foldername = os.path.splitext(filename)[0]
+            path = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'], foldername)
+            os.mkdir(path)
+            file.save(os.path.join(path, filename))
+            #adicionar musicas random ao foldername
             success = True
     return '''
     <!doctype html>
