@@ -19,18 +19,26 @@ def allowed_file(filename):
  
 @app.route('/')
 def main():
-    return 'Homepage'
+    return ''''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    '''
 
 #perguntar prof
 
-@app.route('/upload', methods=['POST'])
+@app.route('/', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
             resp = jsonify({'message' : 'No file part in the request'})
             resp.status_code = 400
-            return resp
+            return resp                                                 
         file = request.files['file']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
