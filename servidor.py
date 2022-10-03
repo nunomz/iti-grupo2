@@ -19,7 +19,22 @@ def allowed_file(filename):
  
 @app.route('/')
 def main():
-    return ''''
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return Homepage
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return Homepage
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return Homepage
+    return '''
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
