@@ -31,6 +31,7 @@ def main():
             flash('No selected file')
             return Homepage
         if file and allowed_file(file.filename):
+            #alterar aqui
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return Homepage
