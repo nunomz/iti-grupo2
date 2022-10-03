@@ -19,9 +19,17 @@ def allowed_file(filename):
  
 @app.route('/')
 def main():
-    return 'Homepage'
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    '''
  
-@app.route('/upload', methods=['POST'])
+@app.route('/', methods=['POST'])
 def upload_file():
     # check if the post request has the file part
     if 'files[]' not in request.files:
