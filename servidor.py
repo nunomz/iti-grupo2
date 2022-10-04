@@ -1,5 +1,5 @@
 from crypt import methods
-from flask import Flask, json, request, jsonify, send_from_directory, send_file, current_app
+from flask import Flask, json, request, jsonify, send_from_directory, send_file, current_app, render_template
 import os
 import urllib.request
 import shutil
@@ -37,24 +37,6 @@ def copy_files(random_files, input_dir, output_dir):
 
 @app.route('/')
 def main():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return Homepage
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
-            return Homepage
-        if file and allowed_file(file.filename):
-            #alterar aqui
-            filename = secure_filename(file.filename)
-            foldername = filename.rstrip(filename[-4])
-            file.save(os.path.join(current_app.root_path, app.config['MUSIC_FOLDER'], foldername, filename))
-            #adicionar musicas random ao foldername
-            return Homepage
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -70,40 +52,40 @@ def main():
 
 @app.route('/', methods=['POST'])
 def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            resp = jsonify({'message' : 'No file part in the request'})
-            resp.status_code = 400
-            return resp                                                 
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
-            return Homepage
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename) 
-            #create folder and save file to it
-            foldername = os.path.splitext(filename)[0] #foldername = filename without extension
-            path = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'], foldername)
-            os.mkdir(path)
-            file.save(os.path.join(path, filename))
-            #adds random songs to folder
-            input_dir= os.path.join(current_app.root_path, app.config['MUSIC_FOLDER'])
-            file_list = get_file_list(input_dir) 
-            random_files = get_random_files(file_list, 10)
-            copy_files(random_files, input_dir, path)
-            success = True
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
+    # check if the post request has the file part
+    if 'file' not in request.files:
+        resp = jsonify({'message' : 'No file part in the request'})
+        resp.status_code = 400
+        return resp                                                 
+    file = request.files['file']
+    # If the user does not select a file, the browser submits an
+    # empty file without a filename.
+    if file.filename == '':
+        flash('No selected file')
+        return Homepage
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename) 
+        #create folder and save file to it
+        foldername = os.path.splitext(filename)[0] #foldername = filename without extension
+        path = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'], foldername)
+        os.mkdir(path)
+        file.save(os.path.join(path, filename))
+        #adds random songs to folder
+        input_dir= os.path.join(current_app.root_path, app.config['MUSIC_FOLDER'])
+        file_list = get_file_list(input_dir) 
+        random_files = get_random_files(file_list, 10)
+        copy_files(random_files, input_dir, path)
+        success = True
+        return '''
+        <!doctype html>
+        <title>Upload new File</title>
+        <h1>Upload new File</h1>
+        <form method=post enctype=multipart/form-data>
+        <input type=file name=file>
+        <input type=submit value=Upload>
+        </form>
+        '''
+    
 
 @app.route('/download/<path:filename>', methods=['GET'])
 def downloadfile(filename):
