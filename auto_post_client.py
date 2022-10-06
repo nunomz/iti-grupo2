@@ -18,36 +18,20 @@ def tester(request):
     url = 'http://0.0.0.0:5000/'
     dir = os.path.join(os.getcwd(), 'imagens/')
     f = random.choice(os.listdir(dir))
-    response = requests.post('http://0.0.0.0:5000/', files=f)
-    if response.status_code == requests.codes.ok:
+    file = os.path.join(dir, f)
+    #print(file)
+    files = open(file, 'rb')
+    response = requests.post('http://0.0.0.0:5000/', data=files, allow_redirects=True)
+    
+    if response.status_code == requests.codes.bad:
         print('Headers: {} Response: {}'.format(response.headers, response.text))
 
 
 async def main():
     
-    #print('Intoduza o nome da imagem que deseja enviar: ')
-    
-    #file_name = input()
-
     async with aiohttp.ClientSession() as session:
         urls = ['http://0.0.0.0:5000/'] * 2
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
             pool.map(tester, urls)
-        
-        
-        #url = 'http://0.0.0.0:5000/'
-        #directory= os.path.join(os.getcwd(), 'imagens/')
-        
-        #upload_list = []
-        #for files in os.listdir(directory):
-        #    with open("{folder}{name}".format(folder=directory, name=files), "rb") as data:
-        #        upload_list.append(files, data.read())        
-        #r = requests.post('http://0.0.0.0:5000/', files=*upload_list)
-
-        #file_name = 'imagem'+i
-        #files = {'file': open(file_name, 'rb')}
-        #await session.post(url, data=files)
-
-         
 
 asyncio.run(main())
