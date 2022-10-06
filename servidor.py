@@ -61,8 +61,8 @@ def upload_file():
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
     if file.filename == '':
-        flash('No selected file')
-        return Homepage
+        resp = jsonify({'message' : 'Empty file part'})
+        return resp
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename) 
         #create folder and save file to it
