@@ -1,5 +1,5 @@
 from crypt import methods
-from flask import Flask, json, request, jsonify, send_from_directory, send_file, current_app
+from flask import Flask, json, request, jsonify, send_from_directory, send_file, current_app, render_template
 import os
 import urllib.request
 import shutil
@@ -34,94 +34,20 @@ def copy_files(random_files, input_dir, output_dir):
         shutil.copy(os.path.join(input_dir, file), output_dir)
 
 #o primeiro nao interessa nao sei porque
+
 @app.route('/')
 def main():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return Homepage
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
-            return Homepage
-        if file and allowed_file(file.filename):
-            #alterar aqui
-            filename = secure_filename(file.filename)
-            foldername = request.form.get("nome")
-            print(foldername)
-            file.save(os.path.join(current_app.root_path, app.config['MUSIC_FOLDER'], foldername, filename))
-            #adicionar musicas random ao foldername
-            return Homepage
-    return '''
-    <!doctype html>
-    <h1>Adicionar novo artista</h1>
-    <br />
-    <form action="" method=post enctype=multipart/form-data>
-    <label> Nome do artista </label>
-    <input type=”text” name=”nome”>
-    <br />
-    <br />
-    <label> Numero de musicas </label>
-    <input type=”number” name=”numero”> 
-    <br />
-    <br />
-    <input type=file name=file>
-    <br />
-    <input type=submit value=Submit>
-    </form>
-    '''
-
+    return render_template('menu.html')
 #
 #
 
 @app.route('/', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            resp = jsonify({'message' : 'No file part in the request'})
-            resp.status_code = 400
-            return resp                                                 
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
-            return Homepage
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename) 
-            #create folder and save file to it
-            foldername = request.form.get("nome") #foldername = filename without extension
-            path = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'], foldername)
-            os.mkdir(path)
-            file.save(os.path.join(path, filename))
-            #adds random songs to folder
-            input_dir= os.path.join(current_app.root_path, app.config['MUSIC_FOLDER'])
-            file_list = get_file_list(input_dir) 
-            random_files = request.form.get("numero")
-            copy_files(random_files, input_dir, path)
-            success = True
-    return '''
-   <!doctype html>
-    <h1>Adicionar novo artista</h1>
-    <br />
-    <form action="" method=post enctype=multipart/form-data>
-    <label> Nome do artista </label>
-    <input type=”text” name=”nome”>
-    <br />
-    <br />
-    <label> Numero de musicas </label>
-    <input type=”number” name=”numero”> 
-    <br />
-    <br />
-    <input type=file name=file>
-    <br />
-    <input type=submit value=Submit>
-    </form>
-    '''
+        #print(request.form['nome'])
+        print(request.form.get('nome'))
+       
+    return render_template('menu.html')
 
 @app.route('/download/<path:filename>', methods=['GET'])
 def downloadfile(filename):
