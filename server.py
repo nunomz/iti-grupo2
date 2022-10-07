@@ -45,6 +45,7 @@ def upload_main():
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
+    <p>Image names range from 090000.jpg to 090299.jpg</p>
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
