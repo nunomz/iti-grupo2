@@ -35,23 +35,26 @@ def copy_files(random_files, input_dir, output_dir):
 
 #o primeiro nao interessa nao sei porque
 
-# @app.route('/')
-# def main():
-#     print("ola")
-#     return '''
-#     <!doctype html>
-#     <title>Upload new File</title>
-#     <h1>Upload new File</h1>
-#     <form method=post enctype=multipart/form-data>
-#       <input type=file name=file>
-#       <input type=submit value=Upload>
-#     </form>
-#     '''
+@app.route('/')
+def main():
+    return render_template('home.html')
+
+@app.route('/upload')
+def upload_main():
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    '''
 
 #
 #
 
-@app.route('/', methods=['POST'])
+@app.route('/upload', methods=['POST'])
 def upload_file():
     print(request)
     # check if the post request has the file part
@@ -63,8 +66,9 @@ def upload_file():
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
     if file.filename == '':
-        flash('No selected file')
-        return Homepage
+        resp = jsonify({'message' : 'No selected file'})
+        resp.status_code = 400
+        return resp  
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename) 
         #create folder and save file to it
@@ -80,6 +84,10 @@ def upload_file():
         success = True
         return render_template('success.html')
     
+@app.route('/download/')
+def logs():
+    filenames = os.listdir('uploads')
+    return render_template('logs.html', files=filenames)
 
 @app.route('/download/<path:filename>', methods=['GET'])
 def downloadfile(filename):

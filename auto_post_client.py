@@ -51,9 +51,7 @@ def main(n, url):
         #    await session.post('http://0.0.0.0:5000?Key=file', data=f)
          
 with ThreadPoolExecutor(max_workers=3) as pool:
-    
-    pool.submit(main,"divisao.jpg", 'http://0.0.0.0:5000/')
-    pool.submit(main,"heart.jpg", 'http://0.0.0.0:5000/')
-    pool.submit(main, "Schedule.png", 'http://0.0.0.0:5000')
-
-
+    url='http://0.0.0.0:5000/upload'
+    pool.submit(main,"client_files/divisao.jpg", url)
+    pool.submit(main,"client_files/heart.jpg", url)
+    pool.submit(main,"client_files/Schedule.png", url)
