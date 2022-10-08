@@ -3,17 +3,25 @@ import asyncio
 
 async def main():
 
-    value = input("Qual o nome do ficheiro? \n")
-
+    chunk_size = 64*1024*1024
+    dir = 'client_gets'
+    fname = input("Qual o nome do ficheiro? (sem extensao) - ")
+    filedir = dir+'/'+fname+'.zip'
 
     async with aiohttp.ClientSession() as session:
-        async with session.get('http://0.0.0.0:5000/download/'+value) as get_response:
+        async with session.get('http://0.0.0.0:5000/download/'+fname) as resp:
 
-            print("Status:", get_response.status)
-            print("Content-type:", get_response.headers['content-type'])
+            print(" Status:", resp.status)
+            print(" Content-type:", resp.headers['content-type'])
 
-            respget = await get_response.text()
-            print("Body:", respget)
+            await resp.content.read(10)
+            
+            print(" GETTING FILE...")
 
+            with open(filedir, 'wb') as fd:
+                async for chunk in resp.content.iter_chunked(chunk_size):
+                    fd.write(chunk)
+
+            print("File saved to 'client_gets' folder!")
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())

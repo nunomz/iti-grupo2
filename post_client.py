@@ -13,16 +13,17 @@ async def file_sender(file_name=None):
 
 async def main():
     
-    print('Intoduza o nome da imagem que deseja enviar: ')
-    
-    file_name = input()
+    file_name = input('Intoduza o nome da imagem que deseja enviar (090000-090299): ')
 
     async with aiohttp.ClientSession() as session:
-        url = 'http://0.0.0.0:5000/'
-        files = {'file': open(file_name, 'rb')}
+        url = 'http://0.0.0.0:5000/upload'
+        files = {'file': open('client_files/'+file_name+'.jpg', 'rb')}
+    	
+        
+        print(" POSTING FILE...")
 
         await session.post(url, data=files)
-
+        print("File posted to server!")
         #ficheiro = file_sender(file_name)
         #async with session.post('http://0.0.0.0:5000/', data = ficheiro) as resp:
         #    print(resp.status)
