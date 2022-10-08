@@ -1,7 +1,3 @@
-import aiohttp
-import asyncio
-import aiofiles
-import os, random
 import requests
 from concurrent.futures import ThreadPoolExecutor
 
