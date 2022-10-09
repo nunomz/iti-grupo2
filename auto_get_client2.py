@@ -1,4 +1,5 @@
 import aiohttp
+import requests
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
 import random
@@ -8,8 +9,14 @@ async def main(fname, url):
     chunk_size = 64*1024*1024
     dir = 'client_gets'
     
+    def get_files():
+        url_files = 'http://0.0.0.0:5000/files/'
+        return requests.get(url_files)
 
     async with aiohttp.ClientSession() as session:
+        ficheiros = get_files()
+        print(ficheiros)
+        
         async with session.get(url+fname) as resp:
 
             filedir = dir+'/'+fname+'.zip'

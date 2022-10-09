@@ -80,11 +80,17 @@ def upload_file():
         #adds random songs to folder
         input_dir= os.path.join(current_app.root_path, app.config['MUSIC_FOLDER'])
         file_list = get_file_list(input_dir) 
-        random_files = get_random_files(file_list, 10)
+        random_files = get_random_files(file_list, 200)
         copy_files(random_files, input_dir, path)
         success = True
         return render_template('success.html')
     
+@app.route('/files/')
+def getlogs():
+    file_list = os.listdir('uploads')
+    payload = {'id_list': file_list}
+    return payload
+
 @app.route('/download/')
 def logs():
     filenames = os.listdir('uploads')
