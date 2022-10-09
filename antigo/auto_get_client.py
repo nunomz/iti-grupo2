@@ -1,22 +1,16 @@
 import aiohttp
-import requests
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
-import random
+
+# fname = input("Qual o nome do ficheiro? (sem extensao) - ")
+# filedir = dir+'/'+fname+'.zip'
 
 async def main(fname, url):
 
     chunk_size = 64*1024*1024
     dir = 'client_gets'
-    
-    def get_files():
-        url_files = 'http://0.0.0.0:5000/files/'
-        return requests.get(url_files)
 
     async with aiohttp.ClientSession() as session:
-        ficheiros = get_files()
-        print(ficheiros)
-        
         async with session.get(url+fname) as resp:
 
             filedir = dir+'/'+fname+'.zip'
@@ -40,15 +34,19 @@ def event(fname, url):
 
 with ThreadPoolExecutor(max_workers=10) as pool:
     
-    url='http://0.0.0.0:5000/downlaod/'
-    num = input('Quantos pedidos em simultâneo? ')
-    num = int(num)
+    url='http://0.0.0.0:5000/download/'
+
     #block comment: shift+alt+a
     #cut triple quotes and paste them where desired
     #change max workers too
-    print(" Downloading " + str(num) + " random files: ")
-    for i in range(num):
-            filenum = random.randrange(90000, 90009)
-            filenum = str(filenum)
-            pool.submit(event,"0"+filenum, url)
-    
+
+    pool.submit(event,"090000", url)
+    pool.submit(event,"090001", url)
+    pool.submit(event,"090002", url)
+    pool.submit(event,"090003", url)
+    pool.submit(event,"090004", url)
+    pool.submit(event,"090005", url)
+    pool.submit(event,"090006", url)
+    pool.submit(event,"090007", url)
+    pool.submit(event,"090008", url)
+    pool.submit(event,"090009", url)

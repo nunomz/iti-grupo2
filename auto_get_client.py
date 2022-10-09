@@ -1,15 +1,22 @@
 import aiohttp
+import json
+import requests
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
+import random
 
-# fname = input("Qual o nome do ficheiro? (sem extensao) - ")
-# filedir = dir+'/'+fname+'.zip'
+chunk_size = 64*1024*1024
+dir = 'client_gets'
 
-async def main(fname, url):
+def event(fname, url):
+    loop = asyncio.new_event_loop()
+    loop.run_until_complete(do_get(fname, url))
 
-    chunk_size = 64*1024*1024
-    dir = 'client_gets'
+def listfiles():
+    files = requests.get('http://0.0.0.0:5000/list_files/').text
+    return files
 
+async def do_get(fname, url):
     async with aiohttp.ClientSession() as session:
         async with session.get(url+fname) as resp:
 
@@ -28,25 +35,22 @@ async def main(fname, url):
 
             print("File saved to 'client_gets' folder!")
 
-def event(fname, url):
-    loop = asyncio.new_event_loop()
-    loop.run_until_complete(main(fname, url))
 
-with ThreadPoolExecutor(max_workers=10) as pool:
+ficheiros = listfiles()
+print(ficheiros)
+# change the JSON string into a JSON object
+jsonObject = json.loads(ficheiros)
+
+num = input('Quantos pedidos em simultâneo? ')
+num = int(num)
+
+with ThreadPoolExecutor(max_workers=num) as pool:
     
-    url='http://0.0.0.0:5000/downlaod/'
+    url='http://0.0.0.0:5000/download/'
 
-    #block comment: shift+alt+a
-    #cut triple quotes and paste them where desired
-    #change max workers too
+    
+    print(" Downloading " + str(num) + " random files: ")
 
-    pool.submit(event,"090000", url)
-    pool.submit(event,"090001", url)
-    pool.submit(event,"090002", url)
-    pool.submit(event,"090003", url)
-    pool.submit(event,"090004", url)
-    pool.submit(event,"090005", url)
-    pool.submit(event,"090006", url)
-    pool.submit(event,"090007", url)
-    pool.submit(event,"090008", url)
-    pool.submit(event,"090009", url)
+    for i in range(num):
+        value = jsonObject[i]
+        pool.submit(event,value, url)
