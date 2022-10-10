@@ -18,7 +18,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ZIP_FOLDER'] = ZIP_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 * 1024
  
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp3', 'mp4', 'wav'])
  
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -45,11 +45,11 @@ def upload_main():
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
-    <p>Image names range from 090000.jpg to 090299.jpg</p>
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>
+    <p> Allowed extensions are: txt, pdf, png, jpg, jpeg, gif, mp3, mp4, wav</p>
     '''
 
 #

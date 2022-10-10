@@ -21,13 +21,11 @@ async def do_get(fname, url):
         async with session.get(url+fname) as resp:
 
             filedir = dir+'/'+fname+'.zip'
-            
-            print(" Status:", resp.status)
-            print(" Content-type:", resp.headers['content-type'])
 
-            resp.content.read(10)
-            
-            print(" GETTING FILE...")
+            #print(" Status:", resp.status)
+            #print(" Content-type:", resp.headers['content-type'])
+
+            await resp.content.read(10)
 
             with open(filedir, 'wb') as fd:
                 for chunk in resp.content.iter_chunked(chunk_size):
@@ -37,7 +35,7 @@ async def do_get(fname, url):
 
 
 ficheiros = listfiles()
-print(ficheiros)
+#print(ficheiros)
 # change the JSON string into a JSON object
 jsonObject = json.loads(ficheiros)
 
@@ -47,10 +45,10 @@ num = int(num)
 with ThreadPoolExecutor(max_workers=num) as pool:
     
     url='http://0.0.0.0:5000/download/'
-
     
     print(" Downloading " + str(num) + " random files: ")
 
     for i in range(num):
         value = jsonObject[i]
+        print(" - GETTING "+value)
         pool.submit(event,value, url)
