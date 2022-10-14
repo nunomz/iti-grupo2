@@ -1,5 +1,4 @@
 metricas:
-
 - tempo de resposta dos pedidos post e get
     (grafico com tempo de resposta para 10,20,30,40,50,etc pedidos)
 - numero de pedidos com 1 so musica que server aguenta
