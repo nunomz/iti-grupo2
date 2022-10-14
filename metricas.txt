@@ -1,0 +1,21 @@
+metricas:
+
+- tempo de resposta dos pedidos post e get
+    (grafico com tempo de resposta para 10,20,30,40,50,etc pedidos)
+- numero de pedidos com 1 so musica que server aguenta
+- tempo de escrita no disco
+- tempo de criacao de zip
+- uso do cpu
+- uso de memoria
+- tamanho de zips para 10,20,30,40,50
+- num de erros/exceptions
+
+metricas dos ppt prof:
+- Tempo de latência
+– Eficiência relativa
+– Escalabilidade
+
+PERFORMANCE = 1 / TEMPO DE RESPOSTA
+
+software:
+https://betterstack.com/community/comparisons/python-application-monitoring-tools/
