@@ -5,7 +5,7 @@ metricas:
 - tempo de escrita no disco
 - tempo de criacao de zip
 - uso do cpu
-- uso de memoria
+- uso de memoria 
 - tamanho de zips para 10,20,30,40,50
 - num de erros/exceptions
 
@@ -18,3 +18,10 @@ PERFORMANCE = 1 / TEMPO DE RESPOSTA
 
 software:
 https://betterstack.com/community/comparisons/python-application-monitoring-tools/
+
+relatorio:
+
+- apresentacao do programa, explicar o que fizemos
+- que metricas identificamos, uma explicacao pequena para cada metricas
+- que solucao temos para medir cada metricas
+- resultado, explicar que cpu e ram para cada analise. 
