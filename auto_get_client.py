@@ -28,7 +28,7 @@ async def do_get(fname, url):
             await resp.content.read(10)
 
             with open(filedir, 'wb') as fd:
-                for chunk in resp.content.iter_chunked(chunk_size):
+                for chunk in resp.iter_content(chunk_size=chunk_size):
                     fd.write(chunk)
 
             print("File saved to 'client_gets' folder!")

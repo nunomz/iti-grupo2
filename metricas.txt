@@ -5,12 +5,11 @@ metricas:
 - tempo de escrita no disco
 - tempo de criacao de zip
 - uso do cpu
-- uso de memoria 
+- uso de memoria
 - tamanho de zips para 10,20,30,40,50
 - num de erros/exceptions
 
 metricas dos ppt prof:
-- Tempo de latência
 – Eficiência relativa
 – Escalabilidade
 
@@ -25,3 +24,20 @@ relatorio:
 - que metricas identificamos, uma explicacao pequena para cada metricas
 - que solucao temos para medir cada metricas
 - resultado, explicar que cpu e ram para cada analise. 
+- dar um score e explicar
+
+http://graphiteapp.org/
+
+sug:
+
+avaliar performance pelo tempo de resposta: PERFORMANCE = (1 / TEMPO DE RESPOSTA)*100
+5 avaliações? E ponderar até chegar a um score de 0 a 100
+
+Escalabilidade
+ - grafico evolucao performance com 1 musica/pasta para 1,5,10,25,50,100,250,etc    0.2
+ - grafico evolucao performance com 10 musica/pasta para 1,5,10,25,50,100,250,etc   0.2
+ - grafico evolucao performance com 100 musica/pasta para 1,5,10,25,50,100,250,etc  0.2
+
+Tamanho médio de cada zip para 1,5,10,25,50,100,250,etc musicas
+
+utilizicao de memoria para pedidos com 1,5,10,25,50,100,250,etc musicas
