@@ -7,7 +7,7 @@ import random
 import logging
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
-import memory_profiler as mp   # <----
+#import memory_profiler as mp   # <----
 
 logger = logging.getLogger()
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - "
@@ -66,7 +66,7 @@ def upload_main():
 #
 
 @app.route('/upload', methods=['POST'])
-@mp.profile
+#@mp.profile
 def upload_file():
     print(request)
     # check if the post request has the file part
@@ -112,7 +112,7 @@ def logs():
     return render_template('logs.html', files=filenames)
 
 @app.route('/download/<path:filename>', methods=['GET'])
-@mp.profile
+#@mp.profile
 def downloadfile(filename):
     dir_name = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'], filename) #sets folder to zip
     output_filename = os.path.join(current_app.root_path, app.config['ZIP_FOLDER'], 'zip_'+filename) #sets desired location and name for zip file
