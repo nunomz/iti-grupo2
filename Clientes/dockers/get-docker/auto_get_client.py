@@ -3,10 +3,10 @@ import json
 import requests
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
-import random
+
 
 chunk_size = 64*1024*1024
-dir = 'client_gets'
+dir = '../../../Recursos/client_gets'
 
 def event(fname, url):
     loop = asyncio.new_event_loop()

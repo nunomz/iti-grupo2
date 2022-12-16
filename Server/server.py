@@ -1,7 +1,6 @@
 from crypt import methods
 from flask import Flask, json, request, jsonify, send_from_directory, send_file, current_app, render_template
 import os
-import urllib.request
 import shutil
 import random
 import logging
@@ -49,18 +48,18 @@ def copy_files(random_files, input_dir, output_dir):
 def main():
     return render_template('home.html')
 
-@app.route('/upload')
-def upload_main():
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    <p> Allowed extensions are: txt, pdf, png, jpg, jpeg, gif, mp3, mp4, wav</p>
-    '''
+# @app.route('/upload')
+# def upload_main():
+#     return '''
+#     <!doctype html>
+#     <title>Upload new File</title>
+#     <h1>Upload new File</h1>
+#     <form method=post enctype=multipart/form-data>
+#       <input type=file name=file>
+#       <input type=submit value=Upload>
+#     </form>
+#     <p> Allowed extensions are: txt, pdf, png, jpg, jpeg, gif, mp3, mp4, wav</p>
+#     '''
 
 #
 #
@@ -97,17 +96,17 @@ def upload_file():
         file_list = get_file_list(input_dir) 
         random_files = get_random_files(file_list, 1)
         copy_files(random_files, input_dir, path)
-        success = True
+        #success = True
         return render_template('success.html')
     
 @app.route('/list_files/', methods=['GET'])
 def getlogs():
-    file_list = os.listdir('uploads')
+    file_list = os.listdir('/app/uploads')
     return jsonify(file_list)
 
 @app.route('/download/')
 def logs():
-    filenames = os.listdir('uploads')
+    filenames = os.listdir('/app/uploads')
     print(filenames)
     return render_template('logs.html', files=filenames)
 
@@ -121,4 +120,4 @@ def downloadfile(filename):
     return send_file(final_filename) #sends zip file
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
