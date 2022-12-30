@@ -101,12 +101,12 @@ def upload_file():
     
 @app.route('/list_files/', methods=['GET'])
 def getlogs():
-    file_list = os.listdir('/app/uploads')
+    file_list = os.listdir('uploads')
     return jsonify(file_list)
 
 @app.route('/download/')
 def logs():
-    filenames = os.listdir('/app/uploads')
+    filenames = os.listdir('/uploads')
     print(filenames)
     return render_template('logs.html', files=filenames)
 

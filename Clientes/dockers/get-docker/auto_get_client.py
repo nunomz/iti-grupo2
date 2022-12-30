@@ -6,7 +6,7 @@ import asyncio
 
 
 chunk_size = 64*1024*1024
-dir = '../../../Recursos/client_gets'
+dir = '../../client_gets'
 
 def event(fname, url):
     loop = asyncio.new_event_loop()
