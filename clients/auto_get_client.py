@@ -13,7 +13,7 @@ def event(fname, url):
     loop.run_until_complete(do_get(fname, url))
 
 def listfiles():
-    files = requests.get('http://0.0.0.0:5000/list_files/').text
+    files = requests.get('http://0.0.0.0/list_files/').text
     return files
 
 async def do_get(fname, url):
@@ -44,7 +44,7 @@ num = int(num)
 
 with ThreadPoolExecutor(max_workers=num) as pool:
     
-    url='http://0.0.0.0:5000/download/'
+    url='http://0.0.0.0/download/'
     
     print(" Downloading " + str(num) + " random files: ")
 

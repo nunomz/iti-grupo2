@@ -13,7 +13,7 @@ def main():
     num = int(num)
  
     with ThreadPoolExecutor(max_workers=num) as pool:
-        url='http://0.0.0.0:5000/upload'
+        url='http://0.0.0.0/upload/'
         print(" Uploading " + str(num) + " random files: ")
         for i in range(num):
             filenum = random.randrange(90000, 90299)

@@ -48,21 +48,19 @@ def copy_files(random_files, input_dir, output_dir):
 def main():
     return render_template('home.html')
 
-# @app.route('/upload')
-# def upload_main():
-#     return '''
-#     <!doctype html>
-#     <title>Upload new File</title>
-#     <h1>Upload new File</h1>
-#     <form method=post enctype=multipart/form-data>
-#       <input type=file name=file>
-#       <input type=submit value=Upload>
-#     </form>
-#     <p> Allowed extensions are: txt, pdf, png, jpg, jpeg, gif, mp3, mp4, wav</p>
-#     '''
+@app.route('/upload')
+def upload_main():
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+    <input type=file name=file>
+    <input type=submit value=Upload>
+    </form>
+    <p> Allowed extensions are: txt, pdf, png, jpg, jpeg, gif, mp3, mp4, wav</p>
+    '''
 
-#
-#
 
 @app.route('/upload', methods=['POST'])
 #@mp.profile
@@ -99,18 +97,18 @@ def upload_file():
         #success = True
         return render_template('success.html')
     
-@app.route('/list_files/', methods=['GET'])
+@app.route('/list_files', methods=['GET'])
 def getlogs():
-    file_list = os.listdir('uploads')
+    file_list = os.listdir('files/uploads')
     return jsonify(file_list)
 
-@app.route('/download/')
+@app.route('/download')
 def logs():
-    filenames = os.listdir('/uploads')
+    filenames = os.listdir('files/uploads')
     print(filenames)
     return render_template('logs.html', files=filenames)
 
-@app.route('/download/<path:filename>', methods=['GET'])
+@app.route('/download/<filename>', methods=['GET'])
 #@mp.profile
 def downloadfile(filename):
     dir_name = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'], filename) #sets folder to zip
