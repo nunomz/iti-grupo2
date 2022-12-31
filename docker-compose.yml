@@ -1,31 +1,24 @@
 version: "3"
 
 services:
-
-  traefik:
-    image: "traefik:v2.9"
-    container_name: "traefik"
-    command:
-      #- "--log.level=DEBUG"
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
+  app:
+    build:
+      context: app
+      dockerfile: Dockerfile
     ports:
-      #- "80:80"
-      - "5000:5000"
+      - "5000"
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - files:/files
+  
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    ports:
+      - "80:80"
 
-  whoami:
-    image: "traefik/whoami"
-    container_name: "simple-service"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
-      - "traefik.http.routers.whoami.entrypoints=web"
-
-#  python:
- #   image: server
-  #  container_name: server
-
+volumes:
+  files:
+    driver: local
