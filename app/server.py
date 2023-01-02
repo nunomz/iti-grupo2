@@ -108,13 +108,35 @@ def logs():
     print(filenames)
     return render_template('logs.html', files=filenames)
 
-@app.route('/download/<filename>', methods=['GET'])
+""" @app.route('/download/<filename>', methods=['GET'])
 #@mp.profile
 def downloadfile(filename):
     dir_name = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'], filename) #sets folder to zip
     output_filename = os.path.join(current_app.root_path, app.config['ZIP_FOLDER'], 'zip_'+filename) #sets desired location and name for zip file
     shutil.make_archive(output_filename, 'zip', dir_name) #zip
     final_filename = os.path.join(current_app.root_path, app.config['ZIP_FOLDER'], 'zip_'+filename+'.zip') #zip file
+    return send_file(final_filename) #sends zip file """
+
+@app.route('/autodownload', methods=['GET'])
+#@mp.profile
+def download_file():
+    filename = request.args.get('name')
+    dir_name = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'], filename) #sets folder to zip
+    output_filename = os.path.join(current_app.root_path, app.config['ZIP_FOLDER'], 'zip_'+filename) #sets desired location and name for zip file
+    shutil.make_archive(output_filename, 'zip', dir_name) #zip
+    final_filename = os.path.join(current_app.root_path, app.config['ZIP_FOLDER'], 'zip_'+filename+'.zip') #zip file
+    return send_file(final_filename) #sends zip file
+
+
+@app.route('/randomdownload', methods=['GET'])
+def download_random_files():
+    print(request)
+    file_list = os.listdir('files/uploads')
+    ficheiro = random.choice(file_list)
+    dir_name = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'], ficheiro) #sets folder to zip
+    output_filename = os.path.join(current_app.root_path, app.config['ZIP_FOLDER'], 'zip_'+ficheiro) #sets desired location and name for zip file
+    shutil.make_archive(output_filename, 'zip', dir_name) #zip
+    final_filename = os.path.join(current_app.root_path, app.config['ZIP_FOLDER'], 'zip_'+ficheiro+'.zip') #zip file
     return send_file(final_filename) #sends zip file
 
 if __name__ == '__main__':
