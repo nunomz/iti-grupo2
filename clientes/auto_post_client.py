@@ -20,8 +20,8 @@ def main():
             filenum = random.randrange(90000, 90299)
             filenum = str(filenum)
             pool.submit(do_post,"client_files/0"+filenum+".jpg", url)
-            time_end = time.time()
-            resp_time = time_end - time_init
-            print('Response Time: ' + str(resp_time))
+    time_end = time.time()
+    resp_time = time_end - time_init
+    print('Response Time: ' + str(resp_time))
 
 main()

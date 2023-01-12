@@ -17,6 +17,22 @@ services:
     volumes:
       - ./app/static:/static
 
+  app3:
+    build:
+      context: app
+      dockerfile: Dockerfile
+    hostname: app3
+    volumes:
+      - ./app/static:/static
+
+  app4:
+    build:
+      context: app
+      dockerfile: Dockerfile
+    hostname: app4
+    volumes:
+      - ./app/static:/static
+  
   nginx:
     image: nginx:latest
     volumes:
@@ -24,6 +40,9 @@ services:
     depends_on:
       - app1
       - app2
+      - app3
+      - app4
+
     ports:
       - "80:80"
 
