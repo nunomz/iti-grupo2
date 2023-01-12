@@ -1,6 +1,6 @@
 import requests
 from concurrent.futures import ThreadPoolExecutor
-import random
+import random, time
 
 def do_post(n, url):
     files = {'file': open(n, 'rb')}
@@ -11,7 +11,8 @@ def do_post(n, url):
 def main():
     num = input('Quantos pedidos em simultâneo? ')
     num = int(num)
- 
+    time_init = time.time()
+
     with ThreadPoolExecutor(max_workers=num) as pool:
         url='http://0.0.0.0/upload/'
         print(" Uploading " + str(num) + " random files: ")
@@ -19,5 +20,8 @@ def main():
             filenum = random.randrange(90000, 90299)
             filenum = str(filenum)
             pool.submit(do_post,"client_files/0"+filenum+".jpg", url)
+            time_end = time.time()
+            resp_time = time_end - time_init
+            print('Response Time: ' + str(resp_time))
 
 main()

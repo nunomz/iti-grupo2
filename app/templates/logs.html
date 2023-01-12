@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Download File</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="static/styles/style.css">
   </head>
   <body>
     <h1 class="titulo">Choose File to Download</h1>
@@ -12,7 +12,6 @@
         <li><a href="{{ url_for('downloadfile', filename=file) }}">{{ file }}</a></li>
     {% endfor %}
     </ul>
-
     <p>
       <a href="http://localhost/">  
          <button class="button-28" role="button">Back to Start</button>
