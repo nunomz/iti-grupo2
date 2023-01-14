@@ -32,6 +32,9 @@
 📜README.md \
 
 # Usage:
+0. For servers:
+   - cd to for_server
+   - docker-compose up --build
 1. To build container:
    - docker-compose up --build --scale app=3
      - "--build": re-builds the container everytime. include if there are any changes to update
@@ -40,4 +43,3 @@
     1. open another terminal
     2. cd to clients
     3. run auto_post_client/auto_get_client
-    4. 

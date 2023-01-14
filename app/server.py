@@ -14,8 +14,10 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - "
 logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
+
+#app = Flask(__name__)
 app.url_map.strict_slashes = False
-CORS(app)
+#CORS(app)
  
 app.secret_key = "caircocoders-ednalan"
  
@@ -139,5 +141,9 @@ def download_random_files():
     final_filename = os.path.join(current_app.root_path, app.config['ZIP_FOLDER'], 'zip_'+ficheiro+'.zip') #zip file
     return send_file(final_filename) #sends zip file
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+# if __name__ == '__main__':
+#     app.run(debug=True, host='0.0.0.0')
+
+if __name__ == "__main__":
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000)
